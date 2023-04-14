@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.renderscript.ScriptGroup.Binding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.picpostapi.data.APIService
+import com.example.picpostapi.databinding.FragmentCaptureBinding
 import com.example.picpostapi.viewmodel.CaptureViewModel
 import com.example.picpostapi.viewmodel.CaptureViewModelFactory
 import retrofit2.Retrofit
@@ -53,7 +55,7 @@ class CaptureFragment : Fragment() {
         getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 binding.imageView.setImageURI(it)
-                viewModel.url = it
+                viewModel.imageUri = it
             }
         }
 
@@ -71,7 +73,7 @@ class CaptureFragment : Fragment() {
 
     private fun takePhoto() {
         if (hasCameraPermission()) {
-            viewModel.()?.let {
+            viewModel.imageUri?.let {
                 viewModel.imageUri = it
                 takePicture.launch(it)
             }
